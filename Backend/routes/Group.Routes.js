@@ -2,8 +2,9 @@ const express = require("express");
 const { GroupModel } = require("../model/Group.Model");
 const groupRoutes = express.Router();
 
-// ROUTES - CREATE GROUP
+// ROTAS - CRIAR GRUPO
 
+// Rota para criar um grupo
 groupRoutes.post("/createGroup", async (req, res) => {
     const { admin, groupOfUsers, groupName, groupImg } = req.body;
 
@@ -15,13 +16,14 @@ groupRoutes.post("/createGroup", async (req, res) => {
             groupImg,
         });
         await group.save();
-        res.send({ msg: "Group created successfully", group });
+        res.send({ msg: "Grupo criado com sucesso", group });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 
-// only role ==> admin can access this route
+// Somente função => admin pode acessar esta rota
+// Rota para adicionar membros a um grupo
 groupRoutes.post("/addMembersToGroup", async (req, res) => {
     const { newMembersId, groupId, adminId } = req.body;
     try {
@@ -31,15 +33,14 @@ groupRoutes.post("/addMembersToGroup", async (req, res) => {
         );
 
         if (group.modifiedCount == 0) {
-            res.status(401).send({ error: "No groups found" });
-        } else res.send({ msg: "User has been Added to group successfully" });
+            res.status(401).send({ error: "Nenhum grupo encontrado" });
+        } else res.send({ msg: "Usuário adicionado ao grupo com sucesso" });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 
-// remove members from group
-
+// Rota para remover membros de um grupo
 groupRoutes.post("/removeGroupMember", async (req, res) => {
     const { adminId, removeUserId, groupId } = req.body;
     try {
@@ -50,14 +51,14 @@ groupRoutes.post("/removeGroupMember", async (req, res) => {
             }
         );
         if (group.modifiedCount == 0)
-            res.status(401).send({ error: "Not Authorized" });
-        else res.send({ msg: "User has been removed successfully" });
+            res.status(401).send({ error: "Não autorizado" });
+        else res.send({ msg: "Usuário removido com sucesso" });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error.message });
+        res.send({ msg: "Algo deu errado", error: error.message });
     }
 });
 
-// delete group
+// Rota para deletar um grupo
 groupRoutes.delete("/deleteGroup", async (req, res) => {
     const { adminId, groupId } = req.body;
     try {
@@ -66,14 +67,14 @@ groupRoutes.delete("/deleteGroup", async (req, res) => {
         });
         console.log(group);
         if (group.deletedCount == 0)
-            res.status(401).send({ error: "Not Authorized" });
-        else res.send({ msg: "Group Deleted successfully" });
+            res.status(401).send({ error: "Não autorizado" });
+        else res.send({ msg: "Grupo deletado com sucesso" });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 
-// update name and profile pic of the group
+// Rota para atualizar o nome e a imagem de perfil do grupo
 groupRoutes.put("/updateGroup", async (req, res) => {
     try {
         const { groupId, img, name } = req.body;
@@ -86,14 +87,13 @@ groupRoutes.put("/updateGroup", async (req, res) => {
             { _id: groupId },
             { $set: { groupImg: newImg, groupName: newName } }
         );
-        res.send({ msg: "Group Updated successfully" });
+        res.send({ msg: "Grupo atualizado com sucesso" });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 
-// send message
-
+// Rota para enviar mensagem
 groupRoutes.put("/sendMsg", async (req, res) => {
     const { groupId, msg, senderId, senderName } = req.body;
 
@@ -104,14 +104,13 @@ groupRoutes.put("/sendMsg", async (req, res) => {
                 $push: { listOfMsg: { msg, senderId, senderName } },
             }
         );
-        res.send({ msg: "Message sent successfully" });
+        res.send({ msg: "Mensagem enviada com sucesso" });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 
-// leave group
-
+// Rota para sair de um grupo
 groupRoutes.put("/leaveFromGroup", async (req, res) => {
     const { groupId, userId } = req.body;
 
@@ -120,9 +119,9 @@ groupRoutes.put("/leaveFromGroup", async (req, res) => {
             { _id: groupId },
             { $pull: { groupOfUsers: userId } }
         );
-        res.send({ msg: "User has been successfully left the group." });
+        res.send({ msg: "Usuário saiu do grupo com sucesso." });
     } catch (error) {
-        res.send({ msg: "Something went wtong", error: error });
+        res.send({ msg: "Algo deu errado", error: error });
     }
 });
 

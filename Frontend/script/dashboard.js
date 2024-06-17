@@ -14,6 +14,7 @@ socket.on("receivedMsg", (msg, userId) => {
     li.textContent = msg + " " + time;
     ul.append(li);
 });
+
 const searchBtn = document.getElementById("searchBtn");
 const query = document.getElementById("query");
 const search_users_list = document.getElementById("search_users_list");
@@ -23,10 +24,12 @@ const profile_pic = document.getElementById("profile_pic");
 const groupBtn = document.getElementById("groupBtn");
 const groupDiv = document.getElementById("groupDiv");
 const logout = document.getElementById("logout");
+
 logout.addEventListener("click", () => {
     window.location.href = "./index.html";
     localStorage.removeItem("token");
 });
+
 const url = new URLSearchParams(window.location.search);
 const userId = url.get("id");
 
@@ -40,7 +43,7 @@ fetch(`http://localhost:8080/user/alreadyConnectedUser?userId=${userId}`)
 
 function openProfile(el, data_id, msg) {
     usersProfile.innerHTML = null;
-    // header
+
     const nav = document.createElement("nav");
     nav.setAttribute("id", "usersHeader");
 
@@ -50,16 +53,13 @@ function openProfile(el, data_id, msg) {
     const name = document.createElement("span");
     name.innerText = el.name;
 
-    // body
     const div = document.createElement("div");
     div.setAttribute("id", "usersChat");
     const ul = document.createElement("ul");
     ul.setAttribute("id", data_id);
 
-    //msg li
     if (msg != undefined) {
         msg.forEach(({ data, type }) => {
-            console.log(data, type);
             const li = document.createElement("li");
             li.textContent =
                 data.message + " " + data.timestamp.substring(11, 16);
@@ -67,7 +67,7 @@ function openProfile(el, data_id, msg) {
             ul.append(li);
         });
     }
-    // footer
+
     const footer = document.createElement("footer");
     footer.setAttribute("id", "usersFooter");
     const input = document.createElement("input");
@@ -130,10 +130,8 @@ searchBtn.addEventListener("click", () => {
 });
 
 function renderUsers(users) {
-    console.log(users);
     search_users_list.innerHTML = null;
     users.forEach((el) => {
-        console.log(el.name, el.email);
         const div = document.createElement("div");
         div.setAttribute("class", "users_list_container");
         const name = document.createElement("span");
@@ -181,7 +179,6 @@ function renderUsers(users) {
 }
 
 function sendMessage(el, input, ul) {
-    console.log(input.value, el);
     const li = document.createElement("li");
     let today = new Date();
     let hr = today.getHours() < 10 ? "0" + today.getHours() : today.getHours();

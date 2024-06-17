@@ -32,7 +32,7 @@ const groupSchema = new mongoose.Schema(
         groupImg: {
             type: String,
             default:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2wmdkvMJBxZ022ttr_BPjL3Wf6aesVk8WNg&usqp=CAU",
+                "https://media.licdn.com/dms/image/D4E0BAQH1jhtZ5rvJpw/company-logo_100_100/0/1696956457438/trendbuild_solucoes_em_atendimento_logo?e=1726704000&v=beta&t=CVuDf00SBLVKMq1jwGBtKDAqmGwyI9-A58Bd5ORf0KE",
         },
     },
     {

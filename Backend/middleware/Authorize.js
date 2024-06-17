@@ -4,7 +4,7 @@ const authorisation = (permitted) => {
         if (permitted.includes(user_role)) {
             next();
         } else {
-            return res.status(403).json({ message: "Unauthorized" });
+            return res.status(403).json({ message: "Não autorizado" });
         }
     };
 };
